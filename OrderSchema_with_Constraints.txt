@@ -1,0 +1,107 @@
+-- Instructor: Il-Yeol Song 
+-- Order OLTP schema with PK-FK constraints
+
+
+DROP TABLE PRODUCT CASCADE CONSTRAINTS;
+CREATE TABLE Product (
+   Product_ID                 NUMBER(6) NOT NULL,
+   Description                VARCHAR2(30),
+   Product_Code               CHAR(4));
+
+ALTER TABLE Product
+    ADD CONSTRAINT Product_PK PRIMARY KEY (Product_ID);
+
+
+DROP TABLE Price_Hist CASCADE CONSTRAINTS;
+CREATE TABLE Price_Hist (
+   Product_ID                 NUMBER(6) NOT NULL,
+   List_Price                 NUMBER(8,2),
+   Min_Price                  NUMBER(8,2),
+   Start_Date                 DATE NOT NULL,
+   End_Date                   DATE);
+
+ALTER TABLE Price_Hist 
+    ADD CONSTRAINT Price_Hist_PK PRIMARY KEY (product_id, list_price);
+
+ALTER TABLE Price_Hist 
+    ADD CONSTRAINT Price_Hist_FK FOREIGN KEY (PRODUCT_ID) 
+    REFERENCES PRODUCT (product_id);
+
+
+DROP TABLE emp CASCADE CONSTRAINTS;
+CREATE TABLE emp (
+   employee_id                NUMBER(4) NOT NULL,
+   first_name                 VARCHAR2(15) NOT NULL,
+   middle_initial             VARCHAR2(1),
+   last_name                  VARCHAR2(15) NOT NULL,
+   sex                        CHAR(1) NOT NULL,
+   manager_id                 NUMBER(4),
+   hire_date                  DATE,
+   salary                     NUMBER(7,2),
+   commission                 NUMBER(7,2),
+   job_code		      NUMBER(2),
+   dob                        DATE);
+
+ALTER TABLE emp
+    ADD CONSTRAINT emp_PK PRIMARY KEY (employee_id);
+
+
+DROP TABLE Customer CASCADE CONSTRAINTS;
+CREATE TABLE Customer (
+   CUSTOMER_ID                NUMBER(6) NOT NULL,
+   NAME                       VARCHAR2(45),
+   ADDRESS                    VARCHAR2(40),
+   CITY                       VARCHAR2(30),
+   STATE                      VARCHAR2(2),
+   ZIP_CODE                   VARCHAR2(9),
+   AREA_CODE                  NUMBER(3),
+   PHONE_NUMBER               NUMBER(7),
+   SALESPERSON_ID             NUMBER(4),
+   CREDIT_LIMIT               NUMBER(9,2),
+   COMMENTS                   VARCHAR2(256));
+
+ALTER TABLE customer
+    ADD CONSTRAINT customer_PK PRIMARY KEY (customer_id);
+
+ALTER TABLE customer
+    ADD CONSTRAINT customer_FK FOREIGN KEY (salesperson_id) 
+    REFERENCES emp (employee_id);
+
+
+DROP TABLE sales_order CASCADE CONSTRAINTS;
+CREATE TABLE sales_order (
+   order_id                    NUMBER(4) NOT NULL,
+   order_date                  DATE,
+   customer_id                 NUMBER(6) NOT NULL,
+   ship_date                   DATE,
+   total                       NUMBER(8,2));
+
+
+ALTER TABLE Sales_Order
+    ADD CONSTRAINT Sales_Order_PK PRIMARY KEY (order_id);
+
+ALTER TABLE Sales_Order
+    ADD CONSTRAINT Sales_Order_FK FOREIGN KEY (customer_id) 
+    REFERENCES customer (customer_id);
+
+
+DROP TABLE  Line_Item CASCADE CONSTRAINTS;
+CREATE TABLE  Line_Item (
+   ORDER_ID                    NUMBER(4) NOT NULL,
+   ITEM_SEQ                    NUMBER(4) NOT NULL,
+   PRODUCT_ID                  NUMBER(6) NOT NULL,
+   ACTUAL_PRICE                NUMBER(8,2),
+   QUANTITY                    NUMBER(8),
+   SUBTOTAL                    NUMBER(8,2));
+
+ALTER TABLE Line_Item
+    ADD CONSTRAINT Line_Item_FK1 FOREIGN KEY (order_id) 
+    REFERENCES sales_order (order_id);
+
+ALTER TABLE Line_Item
+    ADD CONSTRAINT Line_Item_FK2 FOREIGN KEY (product_id) 
+    REFERENCES product (product_id);
+
+ALTER TABLE Line_Item
+    ADD CONSTRAINT Line_Item_PK PRIMARY KEY (order_id, item_seq);
+
