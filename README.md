@@ -1,4 +1,5 @@
 # Build-Star-Schema-for-Data-Warehouse-Modeling
+This is my coursework.
 In this project, we will create a star schema from an OLTP schema using SQL and PL/SQL. We will implement by Oracle SQL. 
 
 The general process of the transformation:
