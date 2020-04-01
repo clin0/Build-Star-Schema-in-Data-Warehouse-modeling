@@ -20,6 +20,7 @@ Please give a look about the two schema:
 ![oltp schema](OLTP.jpg)
 
 <br>
+
 ## The Star schema:
 
 ![star schema](star.jpg)
