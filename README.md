@@ -15,10 +15,11 @@ The general process of the transformation:
 
 Please give a look about the two schema:
 
-The OLTP schema:
+## The OLTP schema:
 
 ![oltp schema](OLTP.jpg)
 
-The Star schema:
+<br>
+## The Star schema:
 
 ![star schema](star.jpg)
